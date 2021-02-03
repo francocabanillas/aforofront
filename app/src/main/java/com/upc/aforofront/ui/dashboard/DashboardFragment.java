@@ -17,8 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upc.aforofront.R;
-import com.upc.aforofront.recycler.Listado;
-import com.upc.aforofront.recycler.ListadoAdapter;
 import com.upc.aforofront.recycler.SedeAforo;
 import com.upc.aforofront.recycler.SedeAforoAdapter;
 
@@ -46,7 +44,7 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        recyclerView = (RecyclerView) root.findViewById(R.id.sedeaforoRecycler);
+        recyclerView = (RecyclerView) root.findViewById(R.id.sedeafororecycler);
 
         mAdapter = new SedeAforoAdapter(sedeAforoList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());

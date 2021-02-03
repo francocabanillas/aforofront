@@ -33,8 +33,8 @@ public class SedeAforoAdapter extends RecyclerView.Adapter<SedeAforoAdapter.MyVi
     }
 
 
-    public SedeAforoAdapter(List<SedeAforo> sedeAforoList) {
-        this.sedeAforoList = sedeAforoList;
+    public SedeAforoAdapter(List<SedeAforo> asedeAforoList) {
+        this.sedeAforoList = asedeAforoList;
     }
 
     @Override
@@ -47,10 +47,10 @@ public class SedeAforoAdapter extends RecyclerView.Adapter<SedeAforoAdapter.MyVi
 
     @Override
     public void onBindViewHolder(SedeAforoAdapter.MyViewHolder holder, int position) {
-        SedeAforo listado = sedeAforoList.get(position);
-        holder.nombre.setText(" " +listado.getNombre());
-        holder.direccion.setText(" " +listado.getDireccion());
-        holder.idListado.setText(listado.getIdListado());
+        SedeAforo sedeAforo = sedeAforoList.get(position);
+        holder.nombre.setText(" " +sedeAforo.getNombre());
+        holder.direccion.setText(" " +sedeAforo.getDireccion());
+        holder.idListado.setText(sedeAforo.getIdListado());
         holder.aforo.setText("Aforo " + String.valueOf(Math.random()*30));
 
         switch (holder.idListado.toString()) {
