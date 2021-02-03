@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AforoPeru</string>
+    <string name="title_home">Tiendas</string>
+    <string name="title_dashboard">Aforos</string>
+    <string name="title_notifications">Configuración</string>
+</resources>
