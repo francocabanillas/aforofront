@@ -1,10 +1,8 @@
-package com.upc.aforofront.recycler;
+package com.upc.aforofront.view;
 
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -14,9 +12,9 @@ import com.upc.aforofront.R;
 
 import java.util.List;
 
-public class ListadoAdapter extends RecyclerView.Adapter<ListadoAdapter.MyViewHolder> {
+public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.MyViewHolder> {
 
-    private List<Listado> listadoList;
+    private List<Marca> MarcaList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -25,31 +23,31 @@ public class ListadoAdapter extends RecyclerView.Adapter<ListadoAdapter.MyViewHo
 
         public MyViewHolder(View view) {
             super(view);
-            id = (TextView) view.findViewById(R.id.idestablecimiento);
-            nombre = (TextView) view.findViewById(R.id.nombreestablecimiento);
-            imagen = (LinearLayout) view.findViewById(R.id.imagenestablecimiento);
+            id = (TextView) view.findViewById(R.id.marcaid);
+            nombre = (TextView) view.findViewById(R.id.marcanombre);
+            imagen = (LinearLayout) view.findViewById(R.id.marcaimagen);
 
         }
     }
 
 
-    public ListadoAdapter(List<Listado> listadoList) {
-        this.listadoList = listadoList;
+    public MarcaAdapter(List<Marca> MarcaList) {
+        this.MarcaList = MarcaList;
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listado_fila, parent, false);
+                .inflate(R.layout.marca_fila, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
-        Listado listado = listadoList.get(position);
-        holder.id.setText(listado.getId());
-        holder.nombre.setText(listado.getNombre());
+        Marca Marca = MarcaList.get(position);
+        holder.id.setText(Marca.getId());
+        holder.nombre.setText(Marca.getNombre());
         switch (position) {
             case 0:
                 holder.imagen.setBackgroundResource(R.drawable.metro);
@@ -78,6 +76,6 @@ public class ListadoAdapter extends RecyclerView.Adapter<ListadoAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return listadoList.size();
+        return MarcaList.size();
     }
 }

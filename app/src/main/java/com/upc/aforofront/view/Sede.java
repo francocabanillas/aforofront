@@ -1,6 +1,6 @@
-package com.upc.aforofront.recycler;
+package com.upc.aforofront.view;
 
-public class SedeAforo {
+public class Sede {
 
     private String id;
     private String nombre;
@@ -10,10 +10,10 @@ public class SedeAforo {
     private String longitud;
     private String idListado;
 
-    public SedeAforo() {
+    public Sede() {
     }
 
-    public SedeAforo(String id, String nombre, String direccion, String referencia, String latitud, String longitud, String idListado) {
+    public Sede(String id, String nombre, String direccion, String referencia, String latitud, String longitud, String idListado) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;

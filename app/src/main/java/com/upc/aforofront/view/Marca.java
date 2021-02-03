@@ -1,16 +1,15 @@
-package com.upc.aforofront.recycler;
+package com.upc.aforofront.view;
 
-public class Listado {
+public class Marca {
 
     private String id;
     private String nombre;
     private String imagen;
 
-    public Listado() {
-
+    public Marca() {
     }
 
-    public Listado(String id, String nombre, String imagen) {
+    public Marca(String id, String nombre, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.imagen = imagen;
@@ -39,7 +38,4 @@ public class Listado {
     public void setImagen(String imagen) {
         this.imagen = imagen;
     }
-
-
-
 }

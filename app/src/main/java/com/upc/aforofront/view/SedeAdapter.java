@@ -1,4 +1,4 @@
-package com.upc.aforofront.recycler;
+package com.upc.aforofront.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,11 +10,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.upc.aforofront.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
-public class SedeAforoAdapter extends RecyclerView.Adapter<SedeAforoAdapter.MyViewHolder> {
+public class SedeAdapter extends RecyclerView.Adapter<SedeAdapter.MyViewHolder> {
 
-    private List<SedeAforo> sedeAforoList;
+    private List<Sede> SedeList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -24,34 +25,37 @@ public class SedeAforoAdapter extends RecyclerView.Adapter<SedeAforoAdapter.MyVi
 
         public MyViewHolder(View view) {
             super(view);
-            nombre = (TextView) view.findViewById(R.id.sedeaforonombre);
-            direccion = (TextView) view.findViewById(R.id.sedeaforodireccion);
-            idListado = (TextView) view.findViewById(R.id.sedeaforoidlistado);
-            aforo = (TextView) view.findViewById(R.id.sedeaforoaforo);
-            imagen = (LinearLayout) view.findViewById(R.id.sedeaforoimagen);
+            nombre = (TextView) view.findViewById(R.id.sedenombre);
+            direccion = (TextView) view.findViewById(R.id.sededireccion);
+            idListado = (TextView) view.findViewById(R.id.sedeidlistado);
+            aforo = (TextView) view.findViewById(R.id.sedeaforo);
+            imagen = (LinearLayout) view.findViewById(R.id.sedeimagen);
         }
     }
 
 
-    public SedeAforoAdapter(List<SedeAforo> asedeAforoList) {
-        this.sedeAforoList = asedeAforoList;
+    public SedeAdapter(List<Sede> aSedeList) {
+        this.SedeList = aSedeList;
     }
 
     @Override
-    public SedeAforoAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public SedeAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.sedeaforo_fila, parent, false);
+                .inflate(R.layout.sede_fila, parent, false);
 
-        return new SedeAforoAdapter.MyViewHolder(itemView);
+        return new SedeAdapter.MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(SedeAforoAdapter.MyViewHolder holder, int position) {
-        SedeAforo sedeAforo = sedeAforoList.get(position);
-        holder.nombre.setText(" " +sedeAforo.getNombre());
-        holder.direccion.setText(" " +sedeAforo.getDireccion());
-        holder.idListado.setText(sedeAforo.getIdListado());
-        holder.aforo.setText("Aforo " + String.valueOf(Math.random()*30));
+    public void onBindViewHolder(SedeAdapter.MyViewHolder holder, int position) {
+        Sede Sede = SedeList.get(position);
+        holder.nombre.setText(" " +Sede.getNombre());
+        holder.direccion.setText(" " +Sede.getDireccion());
+        holder.idListado.setText(Sede.getIdListado());
+        Double calculo = Math.random()*300;
+        DecimalFormat format = new DecimalFormat("0");
+        String formateado = format.format(calculo);
+        holder.aforo.setText("Aforo: " + formateado);
 
         switch (holder.idListado.toString()) {
             case "1":
@@ -83,6 +87,6 @@ public class SedeAforoAdapter extends RecyclerView.Adapter<SedeAforoAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return sedeAforoList.size();
+        return SedeList.size();
     }
 }
