@@ -1,6 +1,7 @@
 package com.upc.aforofront.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,19 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.upc.aforofront.R;
 import com.upc.aforofront.view.Marca;
 import com.upc.aforofront.view.MarcaAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +57,7 @@ public class HomeFragment extends Fragment {
 
         recyclerView = (RecyclerView) root.findViewById(R.id.marcarecycler);
 
-        mAdapter = new MarcaAdapter(MarcaList);
+        mAdapter = new MarcaAdapter(MarcaList,getContext());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(root.getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -58,31 +69,49 @@ public class HomeFragment extends Fragment {
 
         prepareMarcaData();
 
+
+
         return root;
     }
 
     private void prepareMarcaData() {
-        Marca Marca = new Marca();
+        Marca marca;
 
-        Marca = new Marca("1","Metro","URL");
-        MarcaList.add(Marca);
+        String url = "http://aforoactual.mypressonline.com/index.php/marcas";
 
-        Marca = new Marca("2","Plaza Vea","URL");
-        MarcaList.add(Marca);
+        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
 
-        Marca = new Marca("3","Precio Uno","URL");
-        MarcaList.add(Marca);
+                    List<String> items = new ArrayList<>();
+                    for (int i=0; i<jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        MarcaList.add(new Marca(
+                                object.getString("id"),
+                                object.getString("nombre"),
+                                object.getString("imagen")));
+                    }
 
-        Marca = new Marca("4","Tottus","URL");
-        MarcaList.add(Marca);
+                    mAdapter.notifyDataSetChanged();
 
-        Marca = new Marca("5","Vivanda","URL");
-        MarcaList.add(Marca);Marca = new Marca("1","Metro","URL");
 
-        Marca = new Marca("6","Wong","URL");
-        MarcaList.add(Marca);
+                } catch (JSONException e) {
+                    Log.i("======>", e.getMessage());
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("======>", error.toString());
+                    }
+                }
+        );
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
 
-        mAdapter.notifyDataSetChanged();
     }
     
 }
