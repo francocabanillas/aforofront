@@ -1,6 +1,7 @@
 package com.upc.aforofront.ui.dashboard;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +18,20 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.upc.aforofront.R;
+import com.upc.aforofront.view.Marca;
 import com.upc.aforofront.view.Sede;
 import com.upc.aforofront.view.SedeAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,29 +65,58 @@ public class DashboardFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(this.getContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setAdapter(mAdapter);
 
-        prepareSedeData();
+        String str="";
+        Bundle bundle = this.getArguments();
+        if (bundle != null) {
+            str = bundle.getString("idmarca", "1");
+        }
+
+
+        prepareSedeData(str);
 
         return root;
     }
 
-    private void prepareSedeData() {
-        Sede Sede = new Sede();
+    private void prepareSedeData(String idmarca) {
+        String url = "http://aforoactual.mypressonline.com/index.php/sedes/"+idmarca;
 
-        Sede = new Sede("1","Metro La Marina","Av. La Marina 351","","","","1");
-        SedeList.add(Sede);
+        StringRequest stringRequest= new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONArray jsonArray = new JSONArray(response);
 
-        Sede = new Sede("2","Metro Minka","Av. Av. Faucett 655","","","","1");
-        SedeList.add(Sede);
+                    List<String> items = new ArrayList<>();
+                    for (int i=0; i<jsonArray.length(); i++){
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        SedeList.add(new Sede(
+                                object.getString("id"),
+                                object.getString("nombre"),
+                                object.getString("direccion"),
+                                object.getString("latitud"),
+                                object.getString("longitud"),
+                                object.getString("aforo"),
+                                object.getString("id_marca"),
+                                object.getString("imagen")));
+                    }
 
-        Sede = new Sede("3","Metro Emancipacion","Av. La Marina 351","","","","1");
-        SedeList.add(Sede);
+                    mAdapter.notifyDataSetChanged();
 
-        Sede = new Sede("4","Metro España","Av. La Marina 351","","","","1");
-        SedeList.add(Sede);
 
-        Sede = new Sede("5","Metro Chorrillos","Av. La Marina 351","","","","1");
-        SedeList.add(Sede);
-
+                } catch (JSONException e) {
+                    Log.i("======>", e.getMessage());
+                }
+            }
+        },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.i("======>", error.toString());
+                    }
+                }
+        );
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
 
         mAdapter.notifyDataSetChanged();
     }

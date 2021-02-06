@@ -11,10 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.upc.aforofront.R;
+import com.upc.aforofront.ui.dashboard.DashboardFragment;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,11 +31,14 @@ public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.MyViewHolder
 
     private List<Marca> MarcaList;
     private Context context;
+    private View.OnClickListener listener;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         public TextView id, nombre;
         public LinearLayout imagen;
+        public RecyclerView recyclerView;
+
 
 
         public MyViewHolder(View view) {
@@ -39,7 +46,18 @@ public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.MyViewHolder
             id = (TextView) view.findViewById(R.id.marcaid);
             nombre = (TextView) view.findViewById(R.id.marcanombre);
             imagen = (LinearLayout) view.findViewById(R.id.marcaimagen);
-            context = view.getContext();
+            recyclerView = (RecyclerView) view.findViewById(R.id.marcarecycler);
+
+
+
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            if (listener!=null) {
+                listener.onClick(view);
+            }
         }
     }
 
@@ -53,6 +71,8 @@ public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.MyViewHolder
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.marca_fila, parent, false);
+
+        itemView.setOnClickListener(this.listener);
 
         return new MyViewHolder(itemView);
     }
@@ -96,5 +116,9 @@ public class MarcaAdapter extends RecyclerView.Adapter<MarcaAdapter.MyViewHolder
     @Override
     public int getItemCount() {
         return MarcaList.size();
+    }
+
+    public void setOnClicListener(View.OnClickListener listener) {
+        this.listener = listener;
     }
 }

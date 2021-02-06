@@ -1,5 +1,10 @@
 package com.upc.aforofront.view;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.StrictMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.upc.aforofront.R;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -48,41 +57,37 @@ public class SedeAdapter extends RecyclerView.Adapter<SedeAdapter.MyViewHolder> 
 
     @Override
     public void onBindViewHolder(SedeAdapter.MyViewHolder holder, int position) {
-        Sede Sede = SedeList.get(position);
-        holder.nombre.setText(" " +Sede.getNombre());
-        holder.direccion.setText(" " +Sede.getDireccion());
-        holder.idListado.setText(Sede.getIdListado());
-        Double calculo = Math.random()*300;
-        DecimalFormat format = new DecimalFormat("0");
-        String formateado = format.format(calculo);
-        holder.aforo.setText("Aforo: " + formateado);
+        Sede sede = SedeList.get(position);
+        holder.nombre.setText(sede.getNombre());
+        holder.direccion.setText(sede.getDireccion());
+        holder.idListado.setText(sede.getIdmarca());
+//        Double calculo = Math.random()*300;
+//        DecimalFormat format = new DecimalFormat("0");
+//        String formateado = format.format(calculo);
+//        holder.aforo.setText("Aforo: " + formateado);
+        holder.aforo.setText("Aforo: " + sede.getAforo());
 
-        switch (holder.idListado.toString()) {
-            case "1":
-                holder.imagen.setBackgroundResource(R.drawable.metro);
-                break;
-            case "2":
-                holder.imagen.setBackgroundResource(R.drawable.plazavea);
-                break;
-            case "3":
-                holder.imagen.setBackgroundResource(R.drawable.preciouno);
-                break;
-            case "4":
-                holder.imagen.setBackgroundResource(R.drawable.tottus);
-                break;
-            case "5":
-                holder.imagen.setBackgroundResource(R.drawable.vivanda);
-                break;
-            case "6":
-                holder.imagen.setBackgroundResource(R.drawable.wong);
-                break;
-            default:
-                holder.imagen.setBackgroundResource(R.drawable.metro);
-                break;
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        Bitmap myImage = getBitmapFromURL(sede.getImagen());
+        Drawable dr = new BitmapDrawable(myImage);
+        holder.imagen.setBackgroundDrawable(dr);
+
+    }
+
+    public Bitmap getBitmapFromURL(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
         }
-
-
-
     }
 
     @Override

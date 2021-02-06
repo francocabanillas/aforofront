@@ -5,22 +5,24 @@ public class Sede {
     private String id;
     private String nombre;
     private String direccion;
-    private String referencia;
     private String latitud;
     private String longitud;
-    private String idListado;
+    private String aforo;
+    private String idmarca;
+    private String imagen;
 
     public Sede() {
     }
 
-    public Sede(String id, String nombre, String direccion, String referencia, String latitud, String longitud, String idListado) {
+    public Sede(String id, String nombre, String direccion, String latitud, String longitud, String aforo, String idmarca, String imagen) {
         this.id = id;
         this.nombre = nombre;
         this.direccion = direccion;
-        this.referencia = referencia;
         this.latitud = latitud;
         this.longitud = longitud;
-        this.idListado = idListado;
+        this.aforo = aforo;
+        this.idmarca = idmarca;
+        this.imagen = imagen;
     }
 
     public String getId() {
@@ -47,14 +49,6 @@ public class Sede {
         this.direccion = direccion;
     }
 
-    public String getReferencia() {
-        return referencia;
-    }
-
-    public void setReferencia(String referencia) {
-        this.referencia = referencia;
-    }
-
     public String getLatitud() {
         return latitud;
     }
@@ -71,11 +65,27 @@ public class Sede {
         this.longitud = longitud;
     }
 
-    public String getIdListado() {
-        return idListado;
+    public String getAforo() {
+        return aforo;
     }
 
-    public void setIdListado(String idListado) {
-        this.idListado = idListado;
+    public void setAforo(String aforo) {
+        this.aforo = aforo;
+    }
+
+    public String getIdmarca() {
+        return idmarca;
+    }
+
+    public void setIdmarca(String idmarca) {
+        this.idmarca = idmarca;
+    }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
     }
 }
